@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "223532846142",
+    "project_id": "lazyterminator-e58cc",
+    "storage_bucket": "lazyterminator-e58cc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:223532846142:android:cab691432adf8a83fe956f",
+        "android_client_info": {
+          "package_name": "com.example.lazyterminator"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDp9cvhdR6wQYfzibq4khO-bJVLQuNfIPw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

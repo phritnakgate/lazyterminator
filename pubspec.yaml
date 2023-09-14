@@ -1,0 +1,54 @@
+name: lazyterminator
+description: A new Flutter project.
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: '>=3.0.2 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_launcher_icons: ^0.13.1
+  cloud_firestore: ^4.8.5
+  firebase_core: ^2.15.1
+  firebase_auth: ^4.7.3
+  icon_forest: ^1.1.8
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "images/main_logo.png"
+  min_sdk_android: 21 # android min sdk min:16, default 21
+  web:
+    generate: true
+    image_path: "images/main_logo.png"
+    background_color: "#hexcode"
+    theme_color: "#hexcode"
+  windows:
+    generate: true
+    image_path: "images/main_logo.png"
+    icon_size: 48 # min:48, max:256, default: 48
+  macos:
+    generate: true
+    image_path: "images/main_logo.png"
+
+flutter:
+  assets:
+    - images/
+    - fonts/
+  fonts:
+    - family: SukhumvitSet
+      fonts:
+        - asset: fonts/SukhumvitSet-Text.ttf
+        - asset: fonts/SukhumvitSet-Medium.ttf
+          weight: 400
+        - asset: fonts/SukhumvitSet-Bold.ttf
+          weight: 700
+  uses-material-design: true
