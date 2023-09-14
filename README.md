@@ -1,3 +1,5 @@
-# lazyterminator
+# LazyTerminator
+> A 1 week HCRL Flutter project.
 
-A new Flutter project.
+
+
