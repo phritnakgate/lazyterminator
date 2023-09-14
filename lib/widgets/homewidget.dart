@@ -22,7 +22,7 @@ class _HomeWidgetState extends State<HomeWidget> {
   bool isToday(Timestamp timeStamp) {
     timeStamp.toDate();
     bool ret = false;
-    if (timeStamp.toDate().day == DateTime.now().day && 
+    if (timeStamp.toDate().day == DateTime.now().day &&
         timeStamp.toDate().month == DateTime.now().month &&
         timeStamp.toDate().year == DateTime.now().year) {
       ret = true;
@@ -32,6 +32,7 @@ class _HomeWidgetState extends State<HomeWidget> {
 
   @override
   Widget build(BuildContext context) {
+
     return Column(
       children: [
         const SizedBox(height: 10),
@@ -60,7 +61,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                       ((DateTime.now()).isBefore(
                                           element["date_finished"].toDate())));
                         }).toList();
-                        //print(tasklists);
+                        //print(tasklists.length);
                         if (tasklists.isEmpty) {
                           return const Center(
                               child: Text("No tasks for today :)"));

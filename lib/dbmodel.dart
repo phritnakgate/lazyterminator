@@ -1,10 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class TaskDB {
   final String name;
   final String description;
-  final String owner;
+  final String? owner;
   final List<String> coowner;
-  final DateTime date_started;
-  final DateTime date_finished;
+  final Timestamp? date_started;
+  final Timestamp? date_finished;
   final int status;
 
   TaskDB({
