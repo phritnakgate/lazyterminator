@@ -57,17 +57,28 @@ class _AllTaskWidgetState extends State<AllTaskWidget> {
                                 ),
                               ),
                               subtitle: Text(data["description"]),
-                              trailing: IconButton(
-                                icon: const Icon(Icons.arrow_right),
-                                onPressed: () {
-                                  Navigator.push(context, MaterialPageRoute(
-                                    builder: (context) {
-                                      return DetailScreen(
-                                          id: tasklists[index].id, data: data);
+                              trailing: Wrap(spacing: 2, children: <Widget>[
+                                IconButton(
+                                    onPressed: () {
+                                      FirebaseFirestore.instance
+                                          .collection("tasks")
+                                          .doc(tasklists[index].id)
+                                          .delete();
                                     },
-                                  ));
-                                },
-                              ),
+                                    icon: const Icon(Icons.delete)),
+                                IconButton(
+                                  icon: const Icon(Icons.arrow_right),
+                                  onPressed: () {
+                                    Navigator.push(context, MaterialPageRoute(
+                                      builder: (context) {
+                                        return DetailScreen(
+                                            id: tasklists[index].id,
+                                            data: data);
+                                      },
+                                    ));
+                                  },
+                                )
+                              ]),
                             ),
                           );
                         }

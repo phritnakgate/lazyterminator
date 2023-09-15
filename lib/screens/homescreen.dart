@@ -14,7 +14,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int _selectedIndex = 0;
+  int _selectedIndex = 1; // Home Widget is not ready yet, if ready change to 0
 
   void _onItemTapped(int index) {
     setState(() {

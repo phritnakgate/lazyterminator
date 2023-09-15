@@ -30,9 +30,9 @@ class _HomeWidgetState extends State<HomeWidget> {
     return ret;
   }
 
+
   @override
   Widget build(BuildContext context) {
-
     return Column(
       children: [
         const SizedBox(height: 10),
@@ -49,7 +49,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                   : ListView.builder(
                       shrinkWrap: true,
                       scrollDirection: Axis.vertical,
-                      itemCount: snapshot.data?.docs.length,
+                      itemCount: snapshot.data!.docs.length,
                       itemBuilder: (context, index) {
                         final tasklists = snapshot.data!.docs.where((element) {
                           return (element["owner"] == currentUser ||
