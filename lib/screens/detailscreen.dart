@@ -13,6 +13,95 @@ class DetailScreen extends StatefulWidget {
 }
 
 class _DetailScreenState extends State<DetailScreen> {
+  final _gKey = GlobalKey<ScaffoldState>();
+  String bottomSheetState = "CO"; //CO = Co-Owner, ED = Edit Details
+
+  void btmSheet() {
+    TextEditingController coownerController = TextEditingController();
+
+    _gKey.currentState!.showBottomSheet<void>((BuildContext context) {
+      if (bottomSheetState == "CO") {
+        return Container(
+          decoration: BoxDecoration(
+              border: Border.all(color: Colors.grey),
+              borderRadius: const BorderRadius.all(Radius.circular(10))),
+          height: 200,
+          child: Center(
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                const Text(
+                  "Add Co-Owner",
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                ),
+                const SizedBox(height: 5),
+                TextField(
+                    controller: coownerController,
+                    decoration: const InputDecoration(
+                        border: OutlineInputBorder(), labelText: 'Email')),
+                const SizedBox(height: 5),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        FirebaseFirestore.instance
+                            .collection('tasks')
+                            .doc(widget.id)
+                            .update({
+                          'coowner':
+                              FieldValue.arrayUnion([coownerController.text])
+                        });
+                        Navigator.pop(context);
+                      },
+                      child: const Text('Add'),
+                    ),
+                    ElevatedButton(
+                      style:
+                          ElevatedButton.styleFrom(backgroundColor: Colors.red),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Text('Cancel'),
+                    )
+                  ],
+                )
+              ])),
+        );
+      } else {
+        return Container(
+          decoration: BoxDecoration(
+              border: Border.all(color: Colors.grey),
+              borderRadius: const BorderRadius.all(Radius.circular(10))),
+          child: Center(
+              child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text("Edit Task Details",
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+              const SizedBox(height: 5),
+              const Text("Coming Soon!"),
+              const SizedBox(height: 5),
+              Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                ElevatedButton(
+                  onPressed: () {},
+                  child: const Text('Save'),
+                ),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text('Cancel'),
+                )
+              ])
+            ],
+          )),
+        );
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final currentUser = FirebaseAuth.instance.currentUser!.email;
@@ -29,7 +118,19 @@ class _DetailScreenState extends State<DetailScreen> {
     };
     //final startTime =
     return Scaffold(
+      key: _gKey,
       appBar: AppBar(
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.edit, color: Color.fromRGBO(23, 15, 106, 1)),
+            onPressed: () {
+              setState(() {
+                bottomSheetState = "ED";
+                btmSheet();
+              });
+            },
+          )
+        ],
         title: const Text(
           "Task Details",
           style: TextStyle(color: Color.fromRGBO(23, 15, 106, 1)),
@@ -47,20 +148,30 @@ class _DetailScreenState extends State<DetailScreen> {
             Text(widget.data["description"],
                 style: const TextStyle(fontSize: 18)),
             const SizedBox(height: 10),
+            const Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Text("Owner",
+                    style:
+                        TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                Text("Co-Owner",
+                    style:
+                        TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              ],
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 widget.data["owner"] == currentUser
-                    ? const Text("Owner: You", style: TextStyle(fontSize: 18))
-                    : Text("Owner: ${widget.data["owner"]}",
+                    ? const Text("You", style: TextStyle(fontSize: 18))
+                    : Text("${widget.data["owner"]}",
                         style: const TextStyle(fontSize: 18)),
                 widget.data["coowner"].length == 0
-                    ? const Text("Co-owner: None",
-                        style: TextStyle(fontSize: 18))
+                    ? const Text("None", style: TextStyle(fontSize: 18))
                     : widget.data["coowner"].contains(currentUser)
-                        ? Text("Co-owner: You and ${widget.data["coowner"]}",
+                        ? Text("You and ${widget.data["coowner"]}",
                             style: const TextStyle(fontSize: 18))
-                        : Text("Co-owner: ${widget.data["coowner"]}",
+                        : Text("${widget.data["coowner"]}",
                             style: const TextStyle(fontSize: 18)),
               ],
             ),
@@ -125,7 +236,19 @@ class _DetailScreenState extends State<DetailScreen> {
                     },
                     child: const Text("Done"))
               ],
-            )
+            ),
+            const SizedBox(height: 10),
+            ElevatedButton(
+                onPressed: () {
+                  setState(() {
+                    bottomSheetState = "CO";
+                    btmSheet();
+                  });
+                },
+                child: const Text("Add Co-Owner")),
+            const SizedBox(height: 10),
+            ElevatedButton(
+                onPressed: () {}, child: const Text("Focus this task")),
           ],
         ),
       ),

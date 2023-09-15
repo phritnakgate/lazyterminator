@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lazyterminator/screens/auth_page.dart';
-import 'package:lazyterminator/screens/detailscreen.dart';
+//import 'package:lazyterminator/screens/detailscreen.dart';
 import 'package:lazyterminator/screens/homescreen.dart';
-import 'package:lazyterminator/screens/startscreen.dart';
+//import 'package:lazyterminator/screens/startscreen.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 Future main() async {
