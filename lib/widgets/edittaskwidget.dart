@@ -3,16 +3,18 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 //import 'package:lazyterminator/dbmodel.dart';
 
-class CreateTaskWidget extends StatefulWidget {
-  const CreateTaskWidget({super.key});
+class EditTaskWidget extends StatefulWidget {
+  const EditTaskWidget({required this.id, required this.data, super.key});
+  final String id;
+  final Map<String, dynamic> data;
 
   @override
-  State<CreateTaskWidget> createState() => _CreateTaskWidgetState();
+  State<EditTaskWidget> createState() => _EditTaskWidgetState();
 }
 
-class _CreateTaskWidgetState extends State<CreateTaskWidget> {
+class _EditTaskWidgetState extends State<EditTaskWidget> {
   //Connect Firebase
-  static final db = FirebaseFirestore.instance.collection('tasks');
+  final db = FirebaseFirestore.instance.collection('tasks');
   final String? currentUser = FirebaseAuth.instance.currentUser!.email;
 
   final TextEditingController _nameController = TextEditingController();
@@ -76,7 +78,18 @@ class _CreateTaskWidgetState extends State<CreateTaskWidget> {
     return _picked;
   }
 
-  void createTask() {
+  void prefilled() {
+    setState(() {
+      _nameController.text = widget.data["name"];
+      _descriptionController.text = widget.data["description"];
+      _startDateController.text =
+          widget.data["date_started"].toDate().toString();
+      _finishDateController.text =
+          widget.data["date_finished"].toDate().toString();
+    });
+  }
+
+  void updateTask() {
     if (_nameController.text.isEmpty ||
         _descriptionController.text.isEmpty ||
         _startDateController.text.isEmpty ||
@@ -123,14 +136,15 @@ class _CreateTaskWidgetState extends State<CreateTaskWidget> {
         "name": _nameController.text,
         "description": _descriptionController.text,
         "owner": currentUser,
-        "coowner": [],
+        "coowner": widget.data["coowner"],
         "date_started": _startDate,
         "date_finished": _finishDate,
-        "status": 0
+        "status": widget.data["status"]
       };
 
-      db.add(task);
+      db.doc(widget.id).update(task);
       clearField();
+      Navigator.pop(context);
     }
   }
 
@@ -145,13 +159,14 @@ class _CreateTaskWidgetState extends State<CreateTaskWidget> {
 
   @override
   Widget build(BuildContext context) {
+    prefilled();
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const SizedBox(height: 10),
           const Text(
-            "Create Task",
+            "Edit Task",
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
           ),
           const SizedBox(height: 10),
@@ -229,10 +244,10 @@ class _CreateTaskWidgetState extends State<CreateTaskWidget> {
           ElevatedButton(
               onPressed: () {
                 setState(() {
-                  createTask();
+                  updateTask();
                 });
               },
-              child: const Text("Create Task")),
+              child: const Text("Edit")),
         ],
       ),
     );

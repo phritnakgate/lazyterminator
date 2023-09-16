@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:lazyterminator/widgets/edittaskwidget.dart';
 import 'package:lazyterminator/widgets/focustaskwidget.dart';
 
 class DetailScreen extends StatefulWidget {
@@ -79,30 +80,8 @@ class _DetailScreenState extends State<DetailScreen> {
           decoration: BoxDecoration(
               border: Border.all(color: Colors.grey),
               borderRadius: const BorderRadius.all(Radius.circular(10))),
-          child: Center(
-              child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text("Edit Task Details",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-              const SizedBox(height: 5),
-              const Text("Coming Soon!"),
-              const SizedBox(height: 5),
-              Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                ElevatedButton(
-                  onPressed: () {},
-                  child: const Text('Save'),
-                ),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Text('Cancel'),
-                )
-              ])
-            ],
-          )),
+          child:
+              Center(child: EditTaskWidget(id: widget.id, data: widget.data)),
         );
       } else {
         return Container(
