@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:lazyterminator/widgets/focustaskwidget.dart';
 
 class DetailScreen extends StatefulWidget {
   const DetailScreen({required this.id, required this.data, super.key});
@@ -14,7 +15,12 @@ class DetailScreen extends StatefulWidget {
 
 class _DetailScreenState extends State<DetailScreen> {
   final _gKey = GlobalKey<ScaffoldState>();
-  String bottomSheetState = "CO"; //CO = Co-Owner, ED = Edit Details
+  String bottomSheetState = "CO"; //CO = Co-Owner, ED = Edit Details, FO = Focus
+
+  int startdateh = 0;
+  int startdatem = 0;
+  int finishdateh = 0;
+  int finishdatem = 0;
 
   void btmSheet() {
     TextEditingController coownerController = TextEditingController();
@@ -68,7 +74,7 @@ class _DetailScreenState extends State<DetailScreen> {
                 )
               ])),
         );
-      } else {
+      } else if (bottomSheetState == "ED") {
         return Container(
           decoration: BoxDecoration(
               border: Border.all(color: Colors.grey),
@@ -98,6 +104,15 @@ class _DetailScreenState extends State<DetailScreen> {
             ],
           )),
         );
+      } else {
+        return Container(
+            decoration: BoxDecoration(
+                border: Border.all(color: Colors.grey),
+                borderRadius: const BorderRadius.all(Radius.circular(10))),
+            child: FocusTaskWidget(
+              taskhour: finishdateh - startdateh,
+              taskminutes: finishdatem - startdatem,
+            ));
       }
     });
   }
@@ -248,7 +263,40 @@ class _DetailScreenState extends State<DetailScreen> {
                 child: const Text("Add Co-Owner")),
             const SizedBox(height: 10),
             ElevatedButton(
-                onPressed: () {}, child: const Text("Focus this task")),
+                onPressed: () {
+                  startdateh = startDate.hour;
+                  startdatem = startDate.minute;
+                  finishdateh = finishDate.hour;
+                  finishdatem = finishDate.minute;
+                  if (startdateh > finishdateh ||
+                      (startdateh == finishdateh &&
+                          startdatem >= finishdatem) ||
+                      finishdateh - startdateh > 3 ||
+                      startDate.day != finishDate.day) {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                              title: const Text("Error"),
+                              content: const Text(
+                                  "This task is not possible use focus mode."),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: const Text("OK"),
+                                )
+                              ]);
+                        });
+                  } else {
+                    setState(() {
+                      bottomSheetState = "FO";
+                      btmSheet();
+                    });
+                  }
+                },
+                child: const Text("Focus this task")),
           ],
         ),
       ),
