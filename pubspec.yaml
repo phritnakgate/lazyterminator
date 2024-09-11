@@ -44,7 +44,7 @@ flutter:
   assets:
     - images/
     - fonts/
-    - .env
+    - .env.local
   fonts:
     - family: SukhumvitSet
       fonts:

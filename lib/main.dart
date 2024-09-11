@@ -8,7 +8,7 @@ import 'package:firebase_core/firebase_core.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await dotenv.load(fileName: '.env');
+  await dotenv.load(fileName: '.env.local');
   await Firebase.initializeApp(
     options: FirebaseOptions(
       appId: dotenv.env['APPID'] ?? '',
