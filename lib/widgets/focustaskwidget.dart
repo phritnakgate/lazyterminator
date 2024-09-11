@@ -128,16 +128,15 @@ class _FocusTaskWidgetState extends State<FocusTaskWidget> {
                         child: const Text("Start")),
                   ],
                 )
-              : Container(
-                  child: ElevatedButton(
-                      onPressed: () {
-                        setState(() {
-                          stopTimer();
-                          pomodoroStatus = "No Status";
-                          Navigator.pop(context);
-                        });
-                      },
-                      child: const Text("Stop"))),
+              : ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      stopTimer();
+                      pomodoroStatus = "No Status";
+                      Navigator.pop(context);
+                    });
+                  },
+                  child: const Text("Stop")),
         ]),
       ),
     );

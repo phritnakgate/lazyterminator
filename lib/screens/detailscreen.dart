@@ -26,7 +26,7 @@ class _DetailScreenState extends State<DetailScreen> {
   void btmSheet() {
     TextEditingController coownerController = TextEditingController();
 
-    _gKey.currentState!.showBottomSheet<void>((BuildContext context) {
+    _gKey.currentState!.showBottomSheet((BuildContext context) {
       if (bottomSheetState == "CO") {
         return Container(
           decoration: BoxDecoration(

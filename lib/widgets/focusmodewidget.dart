@@ -42,7 +42,7 @@ class _FocusModeWidgetState extends State<FocusModeWidget> {
 
   void setCountDown() {
     const reduceSecondsBy = 1;
-    breaktime = timerval * 60 - 1500;
+    breaktime = 30;
     endbreaktime = timerval * 60 - 1800;
     setState(() {
       final seconds = d!.inSeconds - reduceSecondsBy;
@@ -120,7 +120,7 @@ class _FocusModeWidgetState extends State<FocusModeWidget> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         //FOR DEBUG ONLY
-                        /*
+
                         const Text("1", style: TextStyle(fontSize: 16)),
                         Radio<int>(
                             value: 1,
@@ -130,7 +130,7 @@ class _FocusModeWidgetState extends State<FocusModeWidget> {
                                 timerval = value!;
                               });
                             }),
-                        */
+
                         //USE THIS
                         const Text("30", style: TextStyle(fontSize: 16)),
                         Radio<int>(
@@ -182,15 +182,14 @@ class _FocusModeWidgetState extends State<FocusModeWidget> {
                         child: const Text("Start")),
                   ],
                 )
-              : Container(
-                  child: ElevatedButton(
-                      onPressed: () {
-                        setState(() {
-                          stopTimer();
-                          pomodoroStatus = "No Status";
-                        });
-                      },
-                      child: const Text("Stop"))),
+              : ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      stopTimer();
+                      pomodoroStatus = "No Status";
+                    });
+                  },
+                  child: const Text("Stop")),
         ]),
       ),
     );

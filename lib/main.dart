@@ -1,3 +1,4 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter/material.dart';
 import 'package:lazyterminator/screens/auth_page.dart';
 //import 'package:lazyterminator/screens/detailscreen.dart';
@@ -7,7 +8,16 @@ import 'package:firebase_core/firebase_core.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await dotenv.load(fileName: '.env');
+  await Firebase.initializeApp(
+    options: FirebaseOptions(
+      appId: dotenv.env['APPID'] ?? '',
+      apiKey: dotenv.env['APIKEY'] ?? '',
+      messagingSenderId: dotenv.env['MESSAGESERVICEID'] ?? '',
+      projectId: dotenv.env['PROJECTID'] ?? '',
+      databaseURL: dotenv.env['DATABASEURL'] ?? '',
+    ),
+  );
   runApp(MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(fontFamily: "SukhumvitSet"),
